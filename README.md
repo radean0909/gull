@@ -16,10 +16,15 @@ Install dependencies
 dep ensure
 ```
 
-Tests
------
+## Tests
 
-To the tests:
+Run the tests:
 ```
 go test ./...
+```
+
+## Running the example
+
+```
+go run main.go
 ```
