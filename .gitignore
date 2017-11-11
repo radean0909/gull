@@ -1,2 +1,4 @@
 vendor
 results/*.png
+debug
+.vscode
