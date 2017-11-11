@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
+	"sync"
 	"time"
 
 	"github.com/fogleman/gg"
@@ -9,9 +11,8 @@ import (
 	"github.com/georgea93/gull/point"
 )
 
-func main() {
-	rand.Seed(time.Now().UnixNano())
-
+func generate(wg *sync.WaitGroup, i int) {
+	defer wg.Done()
 	points := point.RandomPoints(400, 100, 1900)
 	convexHull := hull.FromPoints(points)
 
@@ -21,5 +22,19 @@ func main() {
 	graphics.Fill()
 	points.Draw(graphics)
 	convexHull.Draw(graphics)
-	graphics.SavePNG("output.png")
+	path := fmt.Sprintf("results/output_%d.png", i)
+	graphics.SavePNG(path)
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go generate(&wg, i)
+	}
+
+	wg.Wait()
 }
