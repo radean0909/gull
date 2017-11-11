@@ -1,6 +1,7 @@
 package point
 
 import (
+	"math"
 	"math/rand"
 
 	"github.com/fogleman/gg"
@@ -47,6 +48,18 @@ func RandomPoints(length, min, max int) Points {
 	for i := 0; i < length; i++ {
 		x := float64(rand.Intn(max-min) + min)
 		y := float64(rand.Intn(max-min) + min)
+		result = append(result, Point{X: x, Y: y})
+	}
+	return result
+}
+
+func RandomPointsCircle(length int, radius, centreX, centreY float64) Points {
+	var result Points
+	for i := 0; i < length; i++ {
+		alpha := 2 * math.Pi * rand.Float64()
+		r := radius * rand.Float64()
+		x := r*math.Cos(alpha) + centreX
+		y := r*math.Sin(alpha) + centreY
 		result = append(result, Point{X: x, Y: y})
 	}
 	return result

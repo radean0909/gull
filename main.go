@@ -6,18 +6,37 @@ import (
 	"sync"
 	"time"
 
+	"github.com/georgea93/gull/point"
+
 	"github.com/fogleman/gg"
 	"github.com/georgea93/gull/hull"
-	"github.com/georgea93/gull/point"
 )
+
+var width = 2000
+var height = 2000
+var centreX = float64(width / 2)
+var centreY = float64(height / 2)
+var maxPoints = 10000
+var minPoints = 10
+var maxRadius = 900
+var minRadius = 10
+var numNoisePoints = 5
+var minNoisePoint = 10
+var maxNoisePoint = width - 10
 
 func generate(wg *sync.WaitGroup, i int) {
 	defer wg.Done()
-	points := point.RandomPoints(400, 100, 1900)
+
+	// generate a circle of points
+	numPoints := rand.Intn(maxPoints-minPoints) + minPoints
+	radius := rand.Intn(maxRadius-minRadius) + minRadius
+	points := point.RandomPointsCircle(numPoints, float64(radius), centreX, centreY)
+	// add a little noise
+	points = append(points, point.RandomPoints(numNoisePoints, minNoisePoint, maxNoisePoint)...)
 	convexHull := hull.FromPoints(points)
 
-	graphics := gg.NewContext(2000, 2000)
-	graphics.DrawRectangle(0, 0, 2000, 2000)
+	graphics := gg.NewContext(width, height)
+	graphics.DrawRectangle(0, 0, float64(width), float64(height))
 	graphics.SetRGB(1, 1, 1)
 	graphics.Fill()
 	points.Draw(graphics)
