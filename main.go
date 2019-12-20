@@ -6,10 +6,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/georgea93/gull/point"
+	"github.com/radean0909/gull/point"
 
 	"github.com/fogleman/gg"
-	"github.com/georgea93/gull/hull"
+	"github.com/radean0909/gull/hull"
 )
 
 var width = 2000
