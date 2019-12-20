@@ -83,6 +83,6 @@ func FromPoints(points point.Points) *Hull {
 	return convexHull(points)
 }
 
-func (h *hull) GetPoints() point.Points {
+func (h *Hull) GetPoints() point.Points {
 	return h.points
 }
